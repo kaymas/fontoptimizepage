@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="styles.min.css">
+  <title>Grid</title>
+</head>
+<body>
+  <div class="stripes">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="content">
+    <article class="about-fonts">
+      <h1>Optimizing WebFonts</h1>
+      <hr>
+      <article>
+        <h2>Font Loading periods</h2>
+
+        <p>There are basically 2 types of loading periods when Webfonts are involved<br>
+        they are : <strong>FOIT</strong> and <strong>FOUT</strong>
+
+        <p><strong class="strong">FOIT</strong> : This is the Invisible text period as I like to put it.
+          This is also referred to as the block period where the site has been loaded and the
+          elements of the file have been parsed and are ready to be displayed, but
+          since the browser doesn't load the font for the text unless its required
+          hence in this block period the browser tries to load the font for the
+          content that requires it by looking for it in the cache, or the in the local
+          file system or the address specified by the developer.
+          <br>I like to call it as the Invisible text period because in this period the browser
+          doesn't displays any text (not even the text with the fallback font) because
+          the browser is still trying to load the webfont.
+        </p>
+
+        <p>
+          <strong class="strong">FOUT</strong> : There was a time when the block period was infinite
+          hence the user would just see whitespace until the webfont was loaded. To correct this
+          a swap period was added and the length of the block period was defined.
+          This period starts when the webfont hasn't been loaded the browser yet and the block period
+          has ended. So in this swap period the browser just shows the text in the fallback font that
+          has been provided in the stylesheets.<br>I like to call this the Ugly Text period because
+          the fallback font isn't exactly the beautiful font that you initally wanted the user to see.
+        </p>
+
+      </article>
+    </article>
+  </div>
+</body>
+</html>

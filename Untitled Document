@@ -1,0 +1,72 @@
+Font loading periods
+FOIT - block period (when text isn't displayed because specified font hasn't been downloaded)
+FOUT - swap period (when the font hasn't been downloaded but the block period has ended so browser just displays the fallback font)
+
+FOIT - invisible text
+FOUT - ugly text (fallback font text)
+
+How to fix
+
+FOIT is way worse than FOUT
+
+TO minimize FOIT
+  Don't use Webfonts, just use local fonts (Github doesn't)
+
+  Download fewer things
+    woff2 is better than other fonts
+
+    see if the font is available locally first by using statement like
+      ex : @font-face
+        src: local('Roboto'), url(https://font.woff2) format('woff2')
+
+    don't have to download entire font
+      use unicode-range
+        ex : unicode-range: U+0-A0
+
+  just download really important things earlier
+    use preload
+      <link rel="preload" href="https://font.woff2"
+        as="font" type="font/woff2" crossorigin>
+
+  use font face observer js library
+    css
+      body.fonts-loaded
+        font-family: 'Roboto', sans-serif
+      body
+        font-family: sans-serif
+
+    js
+      var font = new FontFaceObserver('Roboto')
+      font.load().then(function(){
+        document.body.classList.add('fonts-loaded');
+      });
+
+  control the block swap period
+    use font-display
+      @font-face
+        ...
+        font-display: optional
+
+      font-display types
+        block (default)
+          block period is 3 seconds
+          swap or fallback period is infinite till it finds the webfont
+        swap
+          block period is 0
+          swap or fallback period is infinite till it finds the webfont
+        fallback
+          block period is very short (like 100ms)
+            you don't get to download the font but just to load it if its in the cache
+          swap or fallback period is 3 seconds
+            then after 3 sec if webfont is loaded we switch to it else we don't
+        optional
+          block period is like fallback (100ms)
+          now if webfont is available we switch to it
+            but if it's not we go to fallback font(swap period) and not switch to webfont
+
+
+To minimize FOUT
+  try to make the webfont like the fallback font
+  so that when the switch takes place its not jarring
+  to the user.
+    can do this using line height, letter spacing, word spacing, font-size, font-weight
